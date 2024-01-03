@@ -1,0 +1,13 @@
+[
+  {
+    "email": "email@test.com",
+    "name": "user",
+    "password": "$2b$10$jJYPdqA24e2NSj0wKpOjruOrbsgv4xG2w40CWzV.ibEXJMeXh6rHS"
+  },
+  {
+    "departmentId": 1,
+    "name": "test1",
+    "email": "email1@test.com",
+    "password": "$2b$10$jJYPdqA24e2NSj0wKpOjruOrbsgv4xG2w40CWzV.ibEXJMeXh6rHS"
+  }
+]
