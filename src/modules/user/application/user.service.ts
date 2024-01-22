@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserDomain } from '../domain/user.domain';
 import { compare } from 'bcrypt';
 import { CreateUserParams } from './user.service-params';
+import { UserDomain } from '../domain';
 
 @Injectable()
 export class UserService {

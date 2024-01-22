@@ -2,3 +2,4 @@ export * from './interfaces';
 export * from './guards';
 export * from './utils';
 export * from './filters';
+export * from './dto';

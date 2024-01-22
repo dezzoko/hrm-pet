@@ -1,1 +1,1 @@
-export * from './infrastructure';
+export * from './role.module';

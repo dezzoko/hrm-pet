@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { DepartmentEntity } from 'src/modules/department/infrastructure';
-import { Role } from 'src/modules/role';
+import { RoleEntity } from 'src/modules/role/infrastructure';
 import {
   Entity,
   Unique,
@@ -38,9 +38,9 @@ export class UserEntity {
   @Column({ nullable: true })
   currentHashedRefreshToken?: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => RoleEntity)
   @JoinTable({ name: 'user_roles' })
-  roles: Role[];
+  roles: RoleEntity[];
 
   @Column({ nullable: true })
   departmentId: number;

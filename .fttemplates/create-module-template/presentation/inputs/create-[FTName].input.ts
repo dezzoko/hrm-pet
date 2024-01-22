@@ -1,0 +1,1 @@
+export class  Create<FTName | capitalize>Input{}

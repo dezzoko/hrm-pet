@@ -12,15 +12,11 @@ export class WinstonConfigService implements WinstonModuleOptionsFactory {
     | Promise<WinstonModuleOptions>
     | WinstonModuleOptions {
     return {
-      level: 'http',
+      level: 'info',
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(utilities.format.nestLike('hrm-pet')),
           level: 'info',
-        }),
-        new winston.transports.Console({
-          format: winston.format.combine(utilities.format.nestLike('hrm-pet')),
-          level: 'error',
         }),
       ],
     };

@@ -15,7 +15,7 @@ console.log(ENV);
     ConfigModule.forRoot({
       isGlobal: true,
       load: configuration,
-      envFilePath: !ENV ? '.env' : `.${ENV}.env`,
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
     }),
     WinstonModule.forRootAsync({ useClass: WinstonConfigService }),
 

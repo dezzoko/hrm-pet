@@ -7,9 +7,9 @@ import {
   ManyToMany,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'role' })
 @Unique(['roleName'])
-export class Role {
+export class RoleEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
