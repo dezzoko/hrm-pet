@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { CourseEntity } from 'src/modules/course/infrastructure';
 import { DepartmentEntity } from 'src/modules/department/infrastructure';
 import { RoleEntity } from 'src/modules/role/infrastructure';
 import {
@@ -10,6 +11,7 @@ import {
   JoinTable,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'user' })
@@ -41,6 +43,9 @@ export class UserEntity {
   @ManyToMany(() => RoleEntity)
   @JoinTable({ name: 'user_roles' })
   roles: RoleEntity[];
+
+  @OneToMany(() => CourseEntity, (course) => course.user)
+  courses: CourseEntity[];
 
   @Column({ nullable: true })
   departmentId: number;

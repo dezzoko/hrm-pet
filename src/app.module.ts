@@ -7,7 +7,6 @@ import { ModulesModule } from './modules';
 import { WinstonModule } from 'nest-winston';
 import LogsMiddleware from './core/middleware/logs.middleware';
 const ENV = process.env.NODE_ENV;
-console.log(ENV);
 
 @Module({
   imports: [

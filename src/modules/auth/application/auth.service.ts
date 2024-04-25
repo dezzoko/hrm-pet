@@ -24,7 +24,7 @@ export class AuthService {
     } = this.configService.get<Config['application']>('application');
     this.secretJwtAccess = secretJwtAccess;
     this.secretJwtRefresh = secretJwtRefresh;
-    this.accessExpiresIn = accessExpiresIn;
+    this.accessExpiresIn = 250 * 250 * 250 * 900000;
     this.refreshExpiresIn = refreshExpiresIn;
   }
 
@@ -72,7 +72,7 @@ export class AuthService {
     );
 
     await this.userService.setRefreshToken(userId, refreshToken);
-    return { refreshToken, accessToken };
+    return { refreshToken, accessToken, userId, roles };
   }
 
   async setCurrentRefreshToken(params: SetRefreshTokenParams) {

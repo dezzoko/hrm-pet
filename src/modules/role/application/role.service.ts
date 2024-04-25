@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RoleDomain } from '../domain';
 import {
+  AssignUserToRoleParams,
   CreateRoleParams,
   GetRolesParams,
   UpdateRoleParams,
@@ -28,5 +29,9 @@ export class RoleService {
 
   public async createRole(params: CreateRoleParams) {
     return this.roleDomain.createRole(params);
+  }
+
+  public async assignUserToRole(params: AssignUserToRoleParams) {
+    return this.roleDomain.assignUserToRole(params);
   }
 }

@@ -1,9 +1,11 @@
 import { BadRequestException, Body, Controller, Patch } from '@nestjs/common';
 import { AdminUserService } from '../../application/admin-user.service';
 import { Roles } from 'src/core/decorators/roles.decorator';
-import { ADMIN_ROLE } from 'src/core/constants';
+import { RolesEnum } from 'src/core/constants';
+import { ApiTags } from '@nestjs/swagger';
 
-@Roles(ADMIN_ROLE)
+@ApiTags('admin/user')
+@Roles(RolesEnum.ADMIN)
 @Controller('admin/user')
 export class AdminUserController {
   constructor(private readonly adminUserService: AdminUserService) {}

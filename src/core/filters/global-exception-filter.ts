@@ -12,14 +12,14 @@ import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  private readonly logger = new Logger('test');
+  private readonly logger = new Logger('filter');
   private nodeEnv: string;
   constructor(private configService: ConfigService) {
     const { nodeEnv } =
       this.configService.get<Config['application']>('application');
     this.nodeEnv = nodeEnv;
   }
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -28,16 +28,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let stack: string | undefined;
     let metadata: any;
 
-    if (exception instanceof Error) {
-      if (this.nodeEnv) {
-        stack = exception.stack;
-        this.logger.error(exception.message, exception.stack);
-      } else {
-        // this.logger.error(exception.message, exception.stack);
-      }
-    }
-
+    // const message = exception?.response?.message;
     switch (true) {
+      case exception?.response?.message.length > 0:
+        status = exception.status;
+        message = exception.response.message;
+        break;
       case exception instanceof HttpException:
         status = (exception as HttpException).getStatus();
         message = (exception as HttpException).message;
@@ -56,22 +52,34 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         status = HttpStatus.CONFLICT;
         message = 'Cascade delete violation';
         break;
+      case exception instanceof QueryFailedError &&
+        exception.driverError.code === '23502':
+        status = HttpStatus.CONFLICT;
+        message = 'ExecConstraints';
+        break;
       default:
         status = HttpStatus.INTERNAL_SERVER_ERROR;
         message = 'Internal Server Error';
         if (!(exception instanceof HttpException)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-expect-error
           metadata = { ...exception };
         }
         break;
+    }
+
+    if (exception instanceof Error) {
+      stack = exception.stack;
+      this.logger.error(
+        exception.message,
+        exception?.['status'] !== 404 ? exception.stack : undefined,
+      );
     }
 
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: message?.replaceAll(/\\/g, ''),
+      message: message,
       ...(stack && { stack }),
       ...(metadata && { metadata }),
     });

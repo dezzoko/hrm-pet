@@ -3,7 +3,9 @@ import { NoJwtAuth } from 'src/core/decorators/no-auth.decorator';
 import { AuthService } from '../../application/auth.service';
 import { LocalAuthGuard, RequestWithUser } from 'src/core';
 import JwtRefreshGuard from 'src/core/guards/jwt-refresh.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -13,7 +15,6 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Req() requestWithUser: RequestWithUser) {
     const { roles, id: userId } = requestWithUser.user;
-
     return this.authService.getUserJwtTokens({ userId, roles });
   }
 

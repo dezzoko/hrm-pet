@@ -10,8 +10,6 @@ export class AdminUserDomain {
 
     const user = await this.userRepository.findOneByOrFail({ id: userId });
 
-    console.log(user);
-
     user.salary = salary;
     await this.userRepository.save(user);
     return user;

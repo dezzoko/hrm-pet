@@ -7,3 +7,8 @@ export interface CreateRoleParams {}
 export interface UpdateRoleParams extends Partial<CreateRoleParams> {
   id: number;
 }
+
+export interface AssignUserToRoleParams {
+  userId: number;
+  roleId: number;
+}

@@ -19,7 +19,7 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       type: 'postgres',
       port: postgresPort,
       username: postgresUser,
-      logger: new DatabaseLogger(),
+      // logger: new DatabaseLogger(),
       password: postgresPassword,
       host: postgresHost,
       database: postgresDb,

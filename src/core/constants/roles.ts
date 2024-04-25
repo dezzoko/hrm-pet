@@ -1,1 +1,6 @@
-export const ADMIN_ROLE = 'ADMIN';
+export enum RolesEnum {
+  ADMIN = 'ADMIN',
+  EMPLOYEE = 'EMPLOYEE',
+  MANAGER = 'MANAGER',
+  MODERATOR = 'MODERATOR',
+}

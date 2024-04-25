@@ -6,6 +6,7 @@ import { UserService } from './application';
 import { AdminUserController } from './presentation/controllers/admin-user.controller';
 import { AdminUserService } from './application/admin-user.service';
 import { AdminUserDomain } from './domain/admin-user.domain';
+import { UserController } from './presentation/controllers/user.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -16,7 +17,7 @@ import { AdminUserDomain } from './domain/admin-user.domain';
     AdminUserDomain,
     UserService,
   ],
-  exports: [UserService],
-  controllers: [AdminUserController],
+  exports: [UserService, UserRepository],
+  controllers: [AdminUserController, UserController],
 })
 export class UserModule {}

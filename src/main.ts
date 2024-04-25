@@ -4,6 +4,7 @@ import { Config } from './config';
 import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -12,6 +13,18 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const configService = app.get<ConfigService<Config>>(ConfigService);
   const { port } = configService.get<Config['application']>('application');
+  const options = new DocumentBuilder()
+    .setTitle('HRM Pet')
+    .setDescription('Diploma project')
+    .build();
+
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: '*',
+  });
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
   await app.listen(port);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 

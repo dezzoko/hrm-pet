@@ -11,6 +11,10 @@ export class UserService {
     return this.userDomain.getUserById(userId);
   }
 
+  async getUserByIdWithRoles(userId: number) {
+    return this.userDomain.getUserByIdWithRoles(userId);
+  }
+
   async getUserByEmail(email: string) {
     return this.userDomain.getUserByEmail(email);
   }

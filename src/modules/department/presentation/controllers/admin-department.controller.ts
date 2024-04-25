@@ -1,9 +1,11 @@
 import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common';
-import { ADMIN_ROLE } from 'src/core/constants';
 import { Roles } from 'src/core/decorators/roles.decorator';
 import { AdminDepartmentService } from '../../application/admin-department.service';
+import { RolesEnum } from 'src/core/constants';
+import { ApiTags } from '@nestjs/swagger';
 
-@Roles(ADMIN_ROLE)
+@ApiTags('admin/department')
+@Roles(RolesEnum.ADMIN)
 @Controller('admin/department')
 export class AdminDepartmentController {
   constructor(

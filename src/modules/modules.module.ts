@@ -5,6 +5,8 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalExceptionFilter, JwtAuthGuard, RolesGuard } from 'src/core';
 import { DepartmentModule } from './department';
 import { RoleModule } from './role';
+import { CourseModule } from './course';
+import { CourseCategoryModule } from './course-category';
 
 @Module({
   exports: [RoleModule],
@@ -26,6 +28,13 @@ import { RoleModule } from './role';
       useClass: ClassSerializerInterceptor,
     },
   ],
-  imports: [AuthModule, UserModule, DepartmentModule, RoleModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    CourseModule,
+    DepartmentModule,
+    RoleModule,
+    CourseCategoryModule,
+  ],
 })
 export class ModulesModule {}

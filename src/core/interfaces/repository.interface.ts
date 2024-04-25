@@ -1,4 +1,10 @@
-import { EntityManager, EntityTarget, QueryRunner, Repository } from 'typeorm';
+import {
+  EntityManager,
+  EntityTarget,
+  FindManyOptions,
+  QueryRunner,
+  Repository,
+} from 'typeorm';
 import { calculatePagination } from '../utils';
 
 interface FindWithPaginationParams {
@@ -6,7 +12,7 @@ interface FindWithPaginationParams {
   limit: number;
 }
 
-interface FindWithPaginationResult<T> {
+export interface FindWithPaginationResult<T> {
   totalPages: number;
   total: number;
   data: T[];
@@ -23,19 +29,18 @@ export abstract class BaseRepository<T> extends Repository<T> {
     super(entity, manager, queryRunner);
   }
   async findWithPagination(
-    params: FindWithPaginationParams,
+    params: FindManyOptions<T> & FindWithPaginationParams,
   ): Promise<FindWithPaginationResult<T>> {
     const { limit, page } = params;
     const { take, skip } = calculatePagination(limit, page);
-    const [result, total] = await this.createQueryBuilder('entity')
-      .where('')
-      .skip(skip)
-      .take(take)
-      .getManyAndCount();
-    const totalPages = Math.ceil(total / limit);
+    console.log(params);
+
+    const [data, total] = await this.findAndCount({ ...params, skip, take });
+
+    const totalPages = Math.ceil(+total / limit);
 
     return {
-      data: result,
+      data,
       totalPages,
       total,
       limit,

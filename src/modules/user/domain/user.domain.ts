@@ -21,6 +21,16 @@ export class UserDomain implements OnModuleInit {
     return this.userRepository.findOneBy({ id: userId });
   }
 
+  async getUserByIdWithRoles(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['roles'],
+    });
+    console.error('HEREEE', user);
+
+    return { ...user, roles: user.roles.map((role) => role.roleName) };
+  }
+
   async getUserByEmail(email: string) {
     return this.userRepository.findOne({
       where: { email },
