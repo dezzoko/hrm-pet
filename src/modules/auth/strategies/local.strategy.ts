@@ -11,9 +11,12 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
   async validate(email: string, password: string) {
+    'email@test.com';
     return this.authService.getAuthenticatedUser(
-      'email@test.com',
-      '11111111111',
+      email,
+      password,
+      // 'teacher@test.com',
+      // '11111111111',
     );
   }
 }

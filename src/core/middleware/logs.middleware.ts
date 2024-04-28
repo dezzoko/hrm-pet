@@ -14,18 +14,17 @@ class LogsMiddleware implements NestMiddleware {
         request?.body && JSON.stringify(body)
       }`;
 
-      // if (statusCode >= 500) {
-      //   return this.logger.error(message);
-      // }
+      if (statusCode >= 400) {
+        this.logger.warn(message);
+        return;
+      }
+      if (statusCode >= 500) {
+        this.logger.error(message);
+      }
 
-      // if (statusCode >= 400) {
-      //   return this.logger.warn(message);
-      // }
-
-      // return this.logger.log(message);
+      this.logger.log(message);
     });
-
-    next();
+    return next();
   }
 }
 

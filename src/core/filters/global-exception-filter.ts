@@ -9,7 +9,6 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/config';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger('filter');
@@ -19,6 +18,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       this.configService.get<Config['application']>('application');
     this.nodeEnv = nodeEnv;
   }
+
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
@@ -30,7 +30,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     // const message = exception?.response?.message;
     switch (true) {
-      case exception?.response?.message.length > 0:
+      case exception?.response?.message?.length > 0:
         status = exception.status;
         message = exception.response.message;
         break;
@@ -67,9 +67,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         break;
     }
 
-    if (exception instanceof Error) {
+    if (exception instanceof Error && !(exception instanceof HttpException)) {
       stack = exception.stack;
       this.logger.error(
+        exception['status'],
         exception.message,
         exception?.['status'] !== 404 ? exception.stack : undefined,
       );
@@ -83,5 +84,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       ...(stack && { stack }),
       ...(metadata && { metadata }),
     });
+
+    return;
   }
 }

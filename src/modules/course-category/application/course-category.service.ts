@@ -17,6 +17,9 @@ export class CourseCategoryService {
   public async getCourseCategoryById(id: number) {
     return this.courseCategoryDomain.getCourseCategoryById(id);
   }
+  public async searchCourseCategory(searchField: string) {
+    return this.courseCategoryDomain.searchCourseCategory(searchField);
+  }
 
   public async updateCourseCategory(params: UpdateCourseCategoryParams) {
     return this.courseCategoryDomain.updateCourseCategory(params);

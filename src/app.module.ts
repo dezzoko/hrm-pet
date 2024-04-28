@@ -6,6 +6,7 @@ import { PostgresConfigService } from './config/postgres';
 import { ModulesModule } from './modules';
 import { WinstonModule } from 'nest-winston';
 import LogsMiddleware from './core/middleware/logs.middleware';
+// import LogsMiddleware from './core/middleware/logs.middleware';
 const ENV = process.env.NODE_ENV;
 
 @Module({

@@ -16,6 +16,16 @@ export class CourseService {
     return this.courseDomain.getCourses(params);
   }
 
+  public async getUnapprovedCourses(
+    params: GetCoursesParams & { searchField: string },
+  ) {
+    return this.courseDomain.getAllUnapprovedCourses(params);
+  }
+
+  public async approveCourse(courseId: number, approverId: number) {
+    return this.courseDomain.approveCourse(courseId, approverId);
+  }
+
   public async getCourseById(id: number) {
     return this.courseDomain.getCourseById(id);
   }

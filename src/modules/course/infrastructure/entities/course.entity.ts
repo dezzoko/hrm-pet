@@ -23,11 +23,27 @@ export class CourseEntity {
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.courses)
   user: UserEntity;
 
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.approvedCourses)
+  approvedBy: UserEntity;
+
+  @Column({
+    type: 'timestamp without time zone',
+    name: 'approved_at',
+    nullable: true,
+  })
+  approvedAt: Date;
+
   @ManyToOne(
     () => CourseCategoryEntity,
     (courseCategory) => courseCategory.courses,
   )
   courseCategory: CourseCategoryEntity;
+
+  @Column({ default: false, name: 'is_approved' })
+  isApproved: boolean;
+
+  @Column({ nullable: true })
+  additionalInfoUrl: string;
 
   @CreateDateColumn()
   created_at: Date;

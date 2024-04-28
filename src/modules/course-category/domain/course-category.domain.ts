@@ -23,6 +23,20 @@ export class CourseCategoryDomain {
     return this.courseCategoryRepository.findWithPagination(params);
   }
 
+  public async searchCourseCategory(searchField: string) {
+    const findCourseCategoryBuilder =
+      this.courseCategoryRepository.createQueryBuilder();
+
+    findCourseCategoryBuilder
+      .andWhere('LOWER(name) LIKE LOWER(:search)', {
+        search: `%${searchField}%`,
+      })
+      .limit(10);
+
+    const result = findCourseCategoryBuilder.getMany();
+    return result;
+  }
+
   public async updateCourseCategory(params: UpdateCourseCategoryParams) {
     const updatedCourseCategory = await this.courseCategoryRepository.update(
       { id: params.id },

@@ -47,6 +47,9 @@ export class UserEntity {
   @OneToMany(() => CourseEntity, (course) => course.user)
   courses: CourseEntity[];
 
+  @OneToMany(() => CourseEntity, (course) => course.approvedBy)
+  approvedCourses: CourseEntity[];
+
   @Column({ nullable: true })
   departmentId: number;
 

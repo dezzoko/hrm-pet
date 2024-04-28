@@ -19,9 +19,16 @@ import {
   UpdateCourseCategoryInput,
 } from '../inputs';
 
-@Controller('category')
+@Controller('course-category')
 export class CourseCategoryController {
   constructor(private readonly courseCategoryService: CourseCategoryService) {}
+
+  @Get('search')
+  public async searchCourseCategory(
+    @Query('search-field') searchField: string,
+  ) {
+    return this.courseCategoryService.searchCourseCategory(searchField);
+  }
 
   @HttpCode(HttpStatus.OK)
   @Get(':id')
