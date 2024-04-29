@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseBoolPipe,
   ParseIntPipe,
   Patch,
   Query,
@@ -28,9 +29,13 @@ export class TeacherCourseController {
   public async getCourses(
     @Query() pagination: PaginationParams,
     @Query('search-field') searchField: string,
+    @Query('approved') approved: string,
+    @Query('course-category-id') courseCategoryId?: string,
   ) {
     return this.courseService.getUnapprovedCourses({
       ...pagination,
+      courseCategoryId: courseCategoryId ? +courseCategoryId : undefined,
+      approved: approved === 'true',
       searchField,
     });
   }

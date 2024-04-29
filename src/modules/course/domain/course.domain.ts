@@ -16,13 +16,16 @@ export class CourseDomain {
   public async getCourseById(id: number) {
     return this.courseRepository.findOne({
       where: { id },
-      relations: ['user', 'courseCategory'],
+      relations: ['user', 'courseCategory', 'approvedBy'],
       select: {
         user: {
           name: true,
         },
         courseCategory: {
           id: true,
+          name: true,
+        },
+        approvedBy: {
           name: true,
         },
       },
@@ -89,32 +92,44 @@ export class CourseDomain {
     params: Pagination & {
       searchField: string;
       orderBy?: string;
+      courseCategoryId?: number;
       order?: 'ASC' | 'DESC';
-      filter?: 'approved' | 'unapproved';
+      approved?: boolean;
     },
   ) {
-    const { limit, page, searchField } = params;
+    const { limit, page, searchField, approved, courseCategoryId } = params;
     const findCourseBuilder =
       this.courseRepository.createQueryBuilder('course');
 
     findCourseBuilder.where('course.isApproved = :isApproved', {
-      isApproved: true,
+      isApproved: approved,
     });
 
     if (searchField) {
       findCourseBuilder.andWhere(
-        '(course.name LIKE :searchField OR course.description LIKE :searchField)',
-        { searchField: `%${searchField}%` },
+        '(LOWER(course.name) LIKE LOWER(:searchField) OR LOWER(course.description) LIKE LOWER(:searchField))',
+        { searchField: `%${searchField.toLowerCase()}%` },
       );
     }
 
     findCourseBuilder.leftJoinAndSelect('course.user', 'user');
 
+    findCourseBuilder.leftJoinAndSelect(
+      'course.courseCategory',
+      'courseCategory',
+    );
     if (searchField) {
       findCourseBuilder.orWhere(
         '(user.name LIKE :searchField OR user.surname LIKE :searchField)',
         { searchField: `%${searchField}%` },
       );
+    }
+    console.log(courseCategoryId);
+
+    if (courseCategoryId) {
+      findCourseBuilder.andWhere('courseCategory.id = :courseCategoryId', {
+        courseCategoryId,
+      });
     }
 
     findCourseBuilder.skip((page - 1) * limit).take(limit);

@@ -17,7 +17,11 @@ export class CourseService {
   }
 
   public async getUnapprovedCourses(
-    params: GetCoursesParams & { searchField: string },
+    params: GetCoursesParams & {
+      searchField: string;
+      courseCategoryId?: number;
+      approved: boolean;
+    },
   ) {
     return this.courseDomain.getAllUnapprovedCourses(params);
   }
