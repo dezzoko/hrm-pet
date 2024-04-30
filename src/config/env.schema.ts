@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsNumberString, IsString } from 'class-validator';
 
 export class EnvironmentVariables {
   @IsString()
@@ -24,4 +24,10 @@ export class EnvironmentVariables {
 
   @IsString()
   SECRET_JWT: string;
+
+  @IsNumberString()
+  ACCESS_EXPIRES_IN: string;
+
+  @IsNumberString()
+  REFRESH_EXPIRES_IN: string;
 }

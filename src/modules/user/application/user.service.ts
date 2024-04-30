@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { compare } from 'bcrypt';
 import { CreateUserParams } from './user.service-params';
 import { UserDomain } from '../domain';
 
@@ -19,14 +18,9 @@ export class UserService {
     return this.userDomain.getUserByEmail(email);
   }
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
-    const user = await this.userDomain.getUserById(userId);
+    const user = await this.userDomain.getUserByIdWithRoles(userId);
 
-    const isRefreshTokenMatching = await compare(
-      refreshToken,
-      user.currentHashedRefreshToken,
-    );
-
-    if (isRefreshTokenMatching) {
+    if (user.currentHashedRefreshToken === refreshToken) {
       return user;
     }
   }

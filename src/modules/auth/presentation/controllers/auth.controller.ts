@@ -18,10 +18,12 @@ export class AuthController {
     return this.authService.getUserJwtTokens({ userId, roles });
   }
 
+  @NoJwtAuth()
   @UseGuards(JwtRefreshGuard)
   @Post('grant-tokens')
   async grantNewTokens(@Req() requestWithUser: RequestWithUser) {
     const { user } = requestWithUser;
+
     return this.authService.getUserJwtTokens({
       roles: user.roles,
       userId: user.id,

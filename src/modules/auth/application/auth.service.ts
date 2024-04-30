@@ -24,7 +24,7 @@ export class AuthService {
     } = this.configService.get<Config['application']>('application');
     this.secretJwtAccess = secretJwtAccess;
     this.secretJwtRefresh = secretJwtRefresh;
-    this.accessExpiresIn = 250 * 250 * 250 * 900000;
+    this.accessExpiresIn = accessExpiresIn;
     this.refreshExpiresIn = refreshExpiresIn;
   }
 
@@ -66,6 +66,7 @@ export class AuthService {
         expiresIn: this.refreshExpiresIn,
       },
     );
+
     const accessToken = this.jwtService.sign(
       { userId, roles },
       { secret: this.secretJwtAccess, expiresIn: this.accessExpiresIn },

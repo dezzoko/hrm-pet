@@ -59,6 +59,8 @@ export class CourseDomain {
       { id: params.id },
       {
         ...params,
+        isApproved: false,
+        approvedAt: null,
       },
     );
     return updatedCourse;
@@ -124,7 +126,6 @@ export class CourseDomain {
         { searchField: `%${searchField}%` },
       );
     }
-    console.log(courseCategoryId);
 
     if (courseCategoryId) {
       findCourseBuilder.andWhere('courseCategory.id = :courseCategoryId', {

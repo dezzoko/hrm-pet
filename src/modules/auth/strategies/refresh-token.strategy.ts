@@ -25,11 +25,9 @@ export class JwtRefreshStrategy extends PassportStrategy(
     });
   }
 
-  async validate(request: Request, payload: TokenPayload) {
-    console.log('PAYLOAD', payload);
-
+  async validate(req: Request, payload: TokenPayload) {
     const user = await this.userService.getUserIfRefreshTokenMatches(
-      request.body?.refreshToken,
+      req.body.refreshToken,
       payload.userId,
     );
 

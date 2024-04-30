@@ -26,7 +26,6 @@ export class UserDomain implements OnModuleInit {
       where: { id: userId },
       relations: ['roles'],
     });
-    console.error('HEREEE', user);
 
     return { ...user, roles: user.roles.map((role) => role.roleName) };
   }

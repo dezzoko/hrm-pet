@@ -33,7 +33,6 @@ export abstract class BaseRepository<T> extends Repository<T> {
   ): Promise<FindWithPaginationResult<T>> {
     const { limit, page } = params;
     const { take, skip } = calculatePagination(limit, page);
-    console.log(params);
 
     const [data, total] = await this.findAndCount({ ...params, skip, take });
 
